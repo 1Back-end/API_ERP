@@ -1,10 +1,9 @@
 from dataclasses import dataclass
-from xmlrpc.client import Boolean
 from sqlalchemy.sql import func
 from datetime import datetime
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql.json import JSONB
-from sqlalchemy import Column, ForeignKey, Integer, String, Text, DateTime
+from sqlalchemy import Column, ForeignKey, Integer, String, Text, DateTime,Boolean
 from sqlalchemy import event
 from app.main.models.db.base_class import Base
 from enum import Enum
@@ -27,6 +26,6 @@ class Owner(Base):
      created_at = Column(DateTime, server_default=func.now())
      updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
-     def __repr__(self):
-        return f"Owner(uuid={self.uuid}, first_name={self.first_name}, last_name={self.last_name}, email={self.email}, phone_number={self.phone_number}, address={self.address}, password_has={self.password_has}, is_active={self.is_active}, is_deleted={self.is_deleted})"
+   #   def __repr__(self):
+   #      return f"Owner(uuid={self.uuid}, first_name={self.first_name}, last_name={self.last_name}, email={self.email}, phone_number={self.phone_number}, address={self.address}, password_has={self.password_has}, is_active={self.is_active}, is_deleted={self.is_deleted})"
         

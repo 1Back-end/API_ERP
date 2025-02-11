@@ -22,7 +22,7 @@ class User(Base):
     __tablename__ = "users"
 
     uuid = Column(String, primary_key=True, unique=True)
-    email = Column(String, unique=True, index=True,nulable=False)
+    email = Column(String, unique=True, index=True,nullable=False)
     phone_number = Column(String, unique=True, index=True, nullable=False)
     fist_name = Column(String, nullable=True)
     last_name = Column(String, nullable=True)
@@ -33,8 +33,8 @@ class User(Base):
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
 
-    def __repr__(self):
-        return f"User(uuid={self.uuid}, email={self.email}, phone_number={self.phone_number}, first_name={self.first_name}, last_name={self.last_name}, role={self.role}, status={self.status})"
+    # def __repr__(self):
+    #     return f"User(uuid={self.uuid}, email={self.email}, phone_number={self.phone_number}, first_name={self.first_name}, last_name={self.last_name}, role={self.role}, status={self.status})"
 
 
 
