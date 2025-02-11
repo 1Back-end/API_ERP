@@ -18,7 +18,7 @@ class Owner(Base):
     email = Column(String, nullable=False, unique=True)
     phone_number = Column(String, nullable=False, unique=True)
     address_uuid = Column(String, ForeignKey('addresses.uuid'), nullable=True)
-    adress = relationship("Address",foreign_keys=[address_uuid])
+    address = relationship("Address",foreign_keys=[address_uuid])
     password_hash = Column(String, nullable=False)
     is_active = Column(Boolean,default=False)
     is_deleted = Column(Boolean,default=False)

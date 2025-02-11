@@ -28,17 +28,19 @@ class Company(Base):
     email = Column(String, nullable=False,unique=True)
     phone = Column(String, nullable=False, unique=True)
     description = Column(Text, nullable=True)
-    address_uuid = Column(String, ForeignKey('addresses.uuid'), nullable=True)
-    adress = relationship("Address",foreign_keys=[address_uuid])
     slogan = Column(String, nullable=True)
+
+    address_uuid = Column(String, ForeignKey('addresses.uuid'), nullable=True)
+    address = relationship("Address",foreign_keys=[address_uuid])
+    
     logo_uuid: str = Column(String, ForeignKey('storages.uuid'), nullable=True)
-    logo = relationship("Storage", foreign_keys=[logo_uuid], uselist=False)
+    logo = relationship("Storage", foreign_keys=[logo_uuid])
 
     signature_uuid: str = Column(String, ForeignKey('storages.uuid'), nullable=True)
-    signature = relationship("Storage", foreign_keys=[signature_uuid], uselist=False)
+    signature = relationship("Storage", foreign_keys=[signature_uuid])
 
     stamp_uuid: str = Column(String, ForeignKey('storages.uuid'), nullable=True)
-    stamp = relationship("Storage", foreign_keys=[stamp_uuid], uselist=False)
+    stamp = relationship("Storage", foreign_keys=[stamp_uuid])
 
     founded_at = Column(DateTime, nullable=False, default=datetime.utcnow)
 

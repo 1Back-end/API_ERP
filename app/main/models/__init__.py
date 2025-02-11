@@ -4,3 +4,4 @@ from .user import *
 from .address import *
 from .owners import *
 from .companies import *
+from .storage import *
