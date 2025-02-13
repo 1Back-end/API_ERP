@@ -1,1 +1,11 @@
 Generic single-database configuration.
+
+donner le code de:
+1-  la creation du compte
+2-modifiication d'un utilisateur
+3-suppression d'un utilisateur
+4-activation d'un utilisateur
+5-desactivation d'un utilisateur
+bloquer un utilisateur
+
+tout dois se passer sur le users(models users)
