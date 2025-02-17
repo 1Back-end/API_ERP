@@ -31,3 +31,5 @@ class Address(Base):
      
     date_added: any = Column(DateTime, server_default=func.now())
     date_modified: any = Column(DateTime, server_default=func.now())
+
+

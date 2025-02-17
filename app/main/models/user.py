@@ -14,8 +14,8 @@ class UserRole(str,Enum):
     SUPER_ADMIN = "SUPER_ADMIN"
 
 class UserStatus(str,Enum):
-    ACTIVE = "ACTIVE"
-    INACTIVE = "INACTIVE"
+    ACTIVED = "ACTIVED"
+    UNACTIVED = "UNACTIVED"
     DELETED = "DELETED"
     BLOCKED= "BLOCKED"
 
@@ -25,12 +25,18 @@ class User(Base):
 
     uuid = Column(String,primary_key=True,index=True)
     email = Column(String,unique=True,index=True,nullable=False)
-    phone_number = Column(String,unique=True,index=True)
+    country_code: str = Column(String(5), nullable=False, default="", index=True)
+    phone_number: str = Column(String(20), nullable=False, default="", index=True)
+    full_phone_number: str = Column(String(25), nullable=False, default="", index=True)
     first_name = Column(String,nullable=False)
     last_name = Column(String, nullable=False)
     password_hash = Column(String, nullable=False)
     role=Column(String,nullable=False,default=UserRole.ADMIN)
-    status = Column(String,nullable=False,default=UserStatus.ACTIVE)
+    otp: str = Column(String(5), nullable=True, default="")
+    otp_expired_at: datetime = Column(DateTime, nullable=True, default=None)
+    otp_password: str = Column(String(5), nullable=True, default="")
+    otp_password_expired_at: datetime = Column(DateTime, nullable=True, default=None)
+    status = Column(String,nullable=False,default=UserStatus.ACTIVED)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
