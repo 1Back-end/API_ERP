@@ -11,6 +11,7 @@ from .config import Config
 from app.main.core.i18n import __
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
+from string import ascii_lowercase, ascii_uppercase, digits, punctuation
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -85,3 +86,42 @@ def check_pass(password: str):
         print("True")
         return True
 
+def generate_password(min_length=8, max_length=16):
+    """
+    Generates a random password with at least min_length characters, containing at least:
+    - 1 capital letter
+    - 1 number
+    - 1 special character
+    """
+    if min_length > max_length:
+        tmp = max_length
+        max_length = min_length
+        min_length = tmp
+    if min_length < 8: min_length = 8
+    if max_length > 16: max_length = 16
+
+    print(f"min: {min_length}")
+    print(f"max: {max_length}")
+    lowercase_letters = ascii_lowercase
+    uppercase_letters = ascii_uppercase
+    numbers = digits
+    special_characters = punctuation
+
+    # Ensure at least one character from each category
+    guaranteed_chars = random.sample(lowercase_letters, 1)  # Lowercase
+    guaranteed_chars.extend(random.sample(uppercase_letters, 1))  # Uppercase
+    guaranteed_chars.extend(random.sample(numbers, 1))  # Number
+    guaranteed_chars.extend(random.sample(special_characters, 1))  # Special
+
+    # Choose a random length between min_length and max_length (inclusive)
+    password_length = random.randint(min_length, max_length)
+
+    # Fill remaining characters with any combination
+    remaining_chars = random.sample(lowercase_letters + uppercase_letters + numbers + special_characters, password_length - 4)
+
+    # Combine all characters and shuffle for randomness
+    password = guaranteed_chars + remaining_chars
+    random.shuffle(password)
+
+    # Return the password as a string
+    return ''.join(password)

@@ -21,7 +21,7 @@ class UserBase(BaseModel):
     role:UserRole
 
 class UserCreate(UserBase):
-    password_hash:str
+    pass
 
 class UserUpdate(BaseModel):
     uuid:str

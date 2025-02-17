@@ -1,9 +1,7 @@
 from datetime import timedelta, datetime
 from typing import Any
-
 from fastapi import APIRouter, Depends, Body, HTTPException
 from sqlalchemy.orm import Session
-
 from app.main.core.dependencies import get_db, TokenRequired
 from app.main import schemas, crud, models
 from app.main.core.i18n import __
@@ -28,13 +26,13 @@ async def login(
         db, phone_number=f"{country_code}{phone_number}", password=password
     )
     if not user:
-        raise HTTPException(status_code=400, detail=__("auth-login-failed"))
+        raise HTTPException(status_code=400, detail=__(key="auth-login-failed"))
 
     if user.status in [models.UserStatus.BLOCKED, models.UserStatus.DELETED]:
-        raise HTTPException(status_code=400, detail=__("auth-login-failed"))
+        raise HTTPException(status_code=400, detail=__(key="auth-login-failed"))
 
     if user.status != models.UserStatus.ACTIVED:
-        raise HTTPException(status_code=402, detail=__("user-not-activated"))
+        raise HTTPException(status_code=402, detail=__(key="user-not-activated"))
 
     access_token_expires = timedelta(minutes=Config.ACCESS_TOKEN_EXPIRE_MINUTES)
 
@@ -58,15 +56,15 @@ def register(
 ):
     exist_phone = crud.user.get_by_phone_number(db=db, phone_number=f"{obj_in.country_code}{obj_in.phone_number}")
     if exist_phone:
-        raise HTTPException(status_code=409, detail=__("phone_number-already-used"))
+        raise HTTPException(status_code=409, detail=__(key="phone_number-already-used"))
 
     exist_email = crud.user.get_by_email(db=db, email=obj_in.email)
     if exist_email:
-        raise HTTPException(status_code=409, detail=__("email-already-used"))
+        raise HTTPException(status_code=409, detail=__(key="email-already-used"))
     crud.user.create(
         db, obj_in=obj_in
     )
-    return schemas.Msg(message=__("user-created-successfully"))
+    return schemas.Msg(message=__(key="user-created-successfully"))
 
 @router.post("/start-reset-password", response_model=schemas.Msg)
 def start_reset_password(
@@ -80,14 +78,14 @@ def start_reset_password(
     """
     user = crud.user.get_by_phone_number(db=db, phone_number=f"{country_code}{phone_number}")
     if not user:
-        raise HTTPException(status_code=404, detail=__("user-not-found"))
+        raise HTTPException(status_code=404, detail=__(key="user-not-found"))
 
     user.otp_password = "00000"
     user.otp_password_expired_at = datetime.now() + timedelta(minutes=20)
     db.commit()
     db.refresh(user)
 
-    return schemas.Msg(message=__("reset-password-started"))
+    return schemas.Msg(message=__(key="reset-password-started"))
 
 @router.post("/check-otp-password", summary="Check OTP password", response_model=schemas.Msg)
 def check_otp_password(
@@ -101,15 +99,15 @@ def check_otp_password(
     """
     user = crud.user.get_by_phone_number(db=db, phone_number=f"{country_code}{phone_number}")
     if not user:
-        raise HTTPException(status_code=404, detail=__("user-not-found"))
+        raise HTTPException(status_code=404, detail=__(key="user-not-found"))
 
     if user.otp_password != otp:
-        raise HTTPException(status_code=400, detail=__("otp-invalid"))
+        raise HTTPException(status_code=400, detail=__(key="otp-invalid"))
 
     if user.otp_password_expired_at < datetime.now():
-        raise HTTPException(status_code=400, detail=__("otp-expired"))
+        raise HTTPException(status_code=400, detail=__(key="otp-expired"))
 
-    return schemas.Msg(message=__("otp-valid"))
+    return schemas.Msg(message=__(key="otp-valid"))
 
 @router.post("/reset-password", summary="Reset password", response_model=schemas.Msg)
 def reset_password(
@@ -138,7 +136,7 @@ def reset_password(
     db.commit()
     db.refresh(user)
 
-    return schemas.Msg(message=__("password-reset-successfully"))
+    return schemas.Msg(message=__(key="password-reset-successfully"))
 
 
 @router.get("/me", summary="Get current user", response_model=schemas.UserDetail)
@@ -159,7 +157,8 @@ def actived(
 ):
     # Appel de la fonction d'activation par UUID
     crud.user.actived_account(db=db, uuid=uuid)
-    return {"message": "user-account-activated-successfully"}
+    return schemas.Msg(message=__(key="user-account-activated-successfully"))
+
 
 @router.put("/deactived/{uuid}", response_model=schemas.Msg)
 def deactived(
@@ -169,7 +168,7 @@ def deactived(
 ):
     # Appel de la fonction d'activation par UUID
     crud.user.deactived_account(db=db, uuid=uuid)
-    return {"message": "user-account-deactivated-successfully"}
+    return schemas.Msg(message=__(key="user-account-deactivated-successfully"))
 
 @router.put("/blocked/{uuid}", response_model=schemas.Msg)
 def blocked(
@@ -179,8 +178,8 @@ def blocked(
 ):
     # Appel de la fonction d'activation par UUID
     crud.user.blocked_account(db=db, uuid=uuid)
-    return {"message": "user-account-blocked-successfully"}
-
+    return schemas.Msg(message=__(key="user-account-blocked-successfully"))
+    
 @router.put("/deleted/{uuid}", response_model=schemas.Msg)
 def delete(
     uuid: str,
@@ -189,4 +188,4 @@ def delete(
 ):
     # Appel de la fonction d'activation par UUID
     crud.user.deleted_account(db=db, uuid=uuid)
-    return {"message": "user-account-deleted-successfully"}
+    return schemas.Msg(message=__(key="user-account-deleted-successfully"))
