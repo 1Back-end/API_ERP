@@ -14,5 +14,11 @@ translation = {
     "user-account-deactivated-successfully": "User account deactivated successfully",
     "user-account-blocked-successfully": "User account blocked successfully",
     "user-account-deleted-successfully": "User account deleted successfully",
-    "otp-valid" : "OTP code valid"
+    "otp-valid" : "OTP code valid",
+    "address-created-successfully" : "Address created successfully",
+    "address-updated-successfully" : "Address updated successfully",
+    "avatar-not-found" : "Avatar not found",
+    "owner-email-taken" : "Owner email taken",
+    "owner-not-found" : "Owner not found",
+    "owner-deleted" : "Owner deleted",
 }

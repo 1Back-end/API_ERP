@@ -48,8 +48,8 @@ class CRUDUser(CRUDBase[models.User, schemas.UserCreate, schemas.UserUpdate]):
                                     password=password)
         return new_user
     @classmethod
-    def authenticate(cls, db: Session, *, phone_number: str, password: str) -> Union[models.User, None]:
-        db_obj: models.User = db.query(models.User).filter(models.User.full_phone_number == phone_number).first()
+    def authenticate(cls, db: Session, *, email: str, password: str) -> Union[models.User, None]:
+        db_obj: models.User = db.query(models.User).filter(models.User.email == email).first()
         if not db_obj:
             return None
         if not verify_password(password, db_obj.password_hash):

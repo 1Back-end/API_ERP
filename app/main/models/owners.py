@@ -5,6 +5,11 @@ from sqlalchemy.orm import relationship
 from .db.base_class import Base
 from sqlalchemy.dialects.postgresql import ENUM
 
+class Ownerstatus(str,Enum):
+    ACTIVED = "ACTIVED"
+    UNACTIVED = "UNACTIVED"
+    DELETED = "DELETED"
+    BLOCKED= "BLOCKED"
 
 class Owner(Base):
     """
@@ -28,8 +33,13 @@ class Owner(Base):
 
     password_hash: str = Column(String(100), nullable=True, default="")
     # status = Column(types.Enum(UserStatusType), index=True, nullable=False, default=UserStatusType.UNACTIVED)
-    status = Column(String, index=True, nullable=False)
+    status = Column(String,nullable=False,default=Ownerstatus.ACTIVED)
     is_new_user: bool = Column(Boolean, nullable=True, default=False)
+    otp: str = Column(String(5), nullable=True, default="")
+    otp_expired_at: datetime = Column(DateTime, nullable=True, default=None)
+    otp_password: str = Column(String(5), nullable=True, default="")
+    otp_password_expired_at: datetime = Column(DateTime, nullable=True, default=None)
+
     phone_number: str = Column(String, nullable=True, default="")
 
     date_added: datetime = Column(DateTime, nullable=False, default=datetime.now())

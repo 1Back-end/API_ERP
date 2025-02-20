@@ -7,8 +7,9 @@ from app.main.models.user import UserRole
 class AddedBy(BaseModel):
     uuid: str
     email: EmailStr
-    firstname: Optional[str]
-    lastname: str
+    first_name:str
+    last_name:str
+    role:UserRole
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -61,3 +62,23 @@ class UserDetail(User):
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
+
+class UserProfile(BaseModel):
+    email:EmailStr
+    country_code:str
+    phone_number:str
+    first_name:str
+    last_name:str
+    role:UserRole
+
+class ResetPasswordOption2Step1(BaseModel):
+    email: EmailStr
+
+class ResetPasswordOption2Step2(BaseModel):
+    email: str
+    otp: str
+
+class ResetPasswordOption3Step3(BaseModel):
+    email: str
+    otp: str
+    new_password:str

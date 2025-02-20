@@ -125,3 +125,22 @@ def generate_password(min_length=8, max_length=16):
 
     # Return the password as a string
     return ''.join(password)
+
+
+def is_valid_password(password):
+  """
+  Checks if a password string meets the following requirements:
+    - At least 8 characters long
+    - Contains at least one lowercase letter
+    - Contains at least one uppercase letter
+    - Contains at least one number
+    # - Contains at least one special character
+  """
+  min_length = 8
+  lowercase = any(char in ascii_lowercase for char in password)
+  uppercase = any(char in ascii_uppercase for char in password)
+  number = any(char in digits for char in password)
+  # special = any(char in punctuation for char in password)
+
+  return (len(password) >= min_length and
+          lowercase and uppercase and number)

@@ -3,6 +3,14 @@ from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 
 
+class AddressSlim(BaseModel):
+    street: str
+    city: str
+    state: Optional[str] = None
+    zipcode: str
+    country: str
+    model_config = ConfigDict(from_attributes=True)
+
 class AddressBase(BaseModel):
     street: str
     city: str
