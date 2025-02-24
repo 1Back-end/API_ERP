@@ -26,9 +26,6 @@ class OwnerSlim(BaseModel):
     lastname: str
     status: str
     phone_number: Optional[str]
-    is_new_user: Optional[bool] = False
-
-
     model_config = ConfigDict(from_attributes=True)
 
 class OwnerResponse(BaseModel):

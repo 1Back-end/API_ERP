@@ -9,6 +9,9 @@ class AddressSlim(BaseModel):
     state: Optional[str] = None
     zipcode: str
     country: str
+    apartment_number: Optional[str] = None
+    additional_information: Optional[str] = None
+
     model_config = ConfigDict(from_attributes=True)
 
 class AddressBase(BaseModel):

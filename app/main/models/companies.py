@@ -48,8 +48,12 @@ class Company(Base):
     type = Column(String, nullable=False,default=CompanyType.PERSONNAL)
     status = Column(String,nullable=False, default=CompanyStatus.INACTIVE)
 
+    website = Column(String, nullable=True)
+
     added_by = Column(String, ForeignKey("owners.uuid"), nullable=False)  # Référence au propriétaire
     owner = relationship("Owner", foreign_keys=[added_by])
+
+    is_deleted = Column(Boolean, default=False)
 
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)

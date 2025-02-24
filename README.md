@@ -15,7 +15,4 @@ Vous verrez la documentation API interactive automatique (fournie par Swagger UI
 
 
 
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTU1Nzc4MzQsInN1YiI6IjI0OTI3NDEyLWUxYTItNDc4My1iMjRhLTQyNjI4ZGQyODliNyJ9._d-J3wFXdQbUeFaewM5NtZkQnQN4doWUkxfGJ-2UNZQ
-
-
-uTa2_$w
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTU4NDE1NjksInN1YiI6ImQ2ZDIyYjI0LWZlYTItNDM0ZS1hOTIzLTYxY2JjNjkyYjcyZSJ9.oIHWlrt9WGlH59sZMxeRwwhNqgm5t54DbOCm7IMWlRE

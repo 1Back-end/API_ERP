@@ -1,0 +1,19 @@
+from sqlalchemy import Column, ForeignKey, Integer, DateTime, func,String
+from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import UUID
+import uuid
+from .db.base_class import Base
+
+class Abonnement(Base):
+    __tablename__ = "abonnements"
+
+    uuid = Column(String, primary_key=True, index=True)
+    start_date = Column(DateTime, default=func.now(), nullable=False)  # Date de début
+    end_date = Column(DateTime, nullable=False)  # Date de fin
+    date_added = Column(DateTime, server_default=func.now())  # Date d'ajout
+    company_uuid = Column(String,ForeignKey('company.uuid'), nullable=False)
+    company = relationship("Company",foreign_keys=[company_uuid])
+    added_by = Column(String, ForeignKey("owners.uuid"), nullable=False)  # Référence au propriétaire
+    owner = relationship("Owner", foreign_keys=[added_by])
+
+    date_modified = Column(DateTime, server_default=func.now(), onupdate=func.now())  # Date de mise à jour
