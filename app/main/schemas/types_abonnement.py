@@ -35,3 +35,9 @@ class TypeAbonnementSlim1(BaseModel):
     date_modified:datetime
     model_config = ConfigDict(from_attributes=True)
 
+class TypeAbonnementSlim2(BaseModel):
+    name:str
+    price : float
+    model_config = ConfigDict(from_attributes=True)
+
+

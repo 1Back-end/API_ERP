@@ -16,7 +16,7 @@ class Feature(Base):
     added_by_uuid: str = Column(String, ForeignKey('users.uuid'), nullable=True)
     added_by = relationship("User", foreign_keys=[added_by_uuid], uselist=False)
     is_active = Column(Boolean, default=True)  # Est-ce que la fonctionnalité est active
-    is_deleted = Column(Boolean, default=True)  # Est-ce que la fonctionnalité est active
+    is_deleted = Column(Boolean, default=False)  # Est-ce que la fonctionnalité est active
     date_added = Column(DateTime, server_default=func.now())  
     date_modified = Column(DateTime, server_default=func.now(), onupdate=func.now())  
 

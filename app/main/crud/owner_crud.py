@@ -30,9 +30,11 @@ class CRUDOwner(CRUDBase[models.Owner, schemas.OwnerCreate,schemas.OwnerUpdate])
         owner = models.Owner(
             uuid= str(uuid.uuid4()),
             email = obj_in.email,
+            full_phone_number=f"{obj_in.country_code}{obj_in.phone_number}",
+            country_code=obj_in.country_code,
+            phone_number=obj_in.phone_number,
             firstname = obj_in.firstname,
             lastname = obj_in.lastname,
-            phone_number = obj_in.phone_number,
             password_hash = get_password_hash(password),
             avatar_uuid = obj_in.avatar_uuid if obj_in.avatar_uuid else None,
             added_by_uuid = added_by_uuid,
@@ -40,8 +42,8 @@ class CRUDOwner(CRUDBase[models.Owner, schemas.OwnerCreate,schemas.OwnerUpdate])
         db.add(owner)
         db.commit()
         db.refresh(owner)
-        # send_account_owner_creation(email_to=obj_in.email,name=obj_in.firstname,
-        #                             password=password)
+        send_account_owner_creation(email_to=obj_in.email,firstname=obj_in.firstname,
+                                    password=password)
         return owner
     
     @classmethod
@@ -54,6 +56,7 @@ class CRUDOwner(CRUDBase[models.Owner, schemas.OwnerCreate,schemas.OwnerUpdate])
         owner.lastname = obj_in.lastname if obj_in.lastname else owner.lastname
         owner.avatar_uuid = obj_in.avatar_uuid if obj_in.avatar_uuid else owner.avatar_uuid
         owner.phone_number = obj_in.phone_number if obj_in.phone_number else owner.phone_number
+        owner.country_code = obj_in.country_code if obj_in.country_code else owner.country_code
         db.flush()
         db.commit()
         db.refresh(owner)
@@ -129,7 +132,7 @@ class CRUDOwner(CRUDBase[models.Owner, schemas.OwnerCreate,schemas.OwnerUpdate])
 
         
 
-    
+  
 owner = CRUDOwner(models.Owner)
 
 

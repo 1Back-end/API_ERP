@@ -10,7 +10,7 @@ class Owner(BaseModel):
     firstname: Optional[str]
     lastname: str
     status: str
-    phone_number: Optional[str]
+    full_phone_number: Optional[str]
     is_new_user: Optional[bool] = False
     avatar: Optional[File]
     added_by: Optional[AddedBy]
@@ -25,7 +25,7 @@ class OwnerSlim(BaseModel):
     firstname: Optional[str]
     lastname: str
     status: str
-    phone_number: Optional[str]
+    full_phone_number: Optional[str]
     model_config = ConfigDict(from_attributes=True)
 
 class OwnerResponse(BaseModel):
@@ -34,7 +34,7 @@ class OwnerResponse(BaseModel):
     firstname: Optional[str]
     lastname: str
     status: str
-    phone_number: Optional[str]
+    full_phone_number: Optional[str]
     is_new_user: Optional[bool] = False
     avatar: Optional[File]
     added_by: Optional[AddedBy]
@@ -48,6 +48,7 @@ class OwnerSchemaBase(BaseModel):
     firstname: Optional[str] = None
     lastname: str
     avatar_uuid: Optional[str] = None
+    country_code:str
     phone_number: Optional[str] = None
 
 
@@ -62,6 +63,7 @@ class OwnerUpdateBase(BaseModel):
     firstname: Optional[str] = None
     lastname: Optional[str] = None
     avatar_uuid: Optional[str] = None
+    country_code:str
     phone_number: Optional[str] = None
     model_config = ConfigDict(from_attributes=True)
 
@@ -72,7 +74,7 @@ class OwnerProfile(BaseModel):
     firstname: Optional[str]
     lastname: str
     status: str
-    phone_number: Optional[str]
+    full_phone_number: Optional[str]
     is_new_user: Optional[bool] = False
     avatar: Optional[File]
     

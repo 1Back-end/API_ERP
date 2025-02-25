@@ -7,3 +7,4 @@ from .companies import *
 from .storage import *
 from .types_abonnement import *
 from .features import *
+from .abonnements import *

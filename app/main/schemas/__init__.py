@@ -8,3 +8,4 @@ from .file import *
 from .owner import *
 from .companies import *
 from .types_abonnement import *
+from .features import *

@@ -21,4 +21,9 @@ translation = {
     "owner-email-taken" : "Owner email taken",
     "owner-not-found" : "Owner not found",
     "owner-deleted" : "Owner deleted",
+    "type-abonnement-not-found" : "Type Abonnement not found",
+    "feature-already-exists" : "Feature already exists",
+    "feature-created-successfully" : "Feature created successfully",
+    "feature-updated-successfully" : "Feature updated successfully",
+    "feature-deleted-successfully" : "Feature deleted successfully"
 }

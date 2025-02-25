@@ -17,3 +17,5 @@ class TypeAbonnement(Base):
     is_deleted = Column(Boolean, default=False)  # Est-ce que la fonctionnalité est active
     date_added = Column(DateTime, server_default=func.now())  
     date_modified = Column(DateTime, server_default=func.now(), onupdate=func.now())  
+    # Relation avec Feature
+    features = relationship("Feature", back_populates="type_abonnement", cascade="all, delete-orphan")

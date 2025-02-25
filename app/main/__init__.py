@@ -27,9 +27,8 @@ security = HTTPBasic()
 protocol = HTTPBearer(auto_error=False, scheme_name="Bearer")
 
 description = '''
-    This is the Stock Management API, designed to handle inventory tracking, stock updates, and order management. It ensures efficient inventory control, optimized stock levels, and streamlined operations for businesses.
+    This is the Enterprise Management API, designed to manage the creation of business owner accounts, business registrations, and subscription management. It enables business owners to register their companies, manage subscriptions, and access tailored features based on their subscription plan, ensuring smooth and efficient business operations.
 '''
-
 
 
 app = FastAPI(

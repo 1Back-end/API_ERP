@@ -20,4 +20,9 @@ translation = {
     "owner-email-taken" : "L'email du propriétaire est déjà utilisé",
     "owner-not-found" : "Propriétaire Introuvable",
     "owner-deleted" : "Le propriétaire a été supprimé avec succès",
+    "type-abonnement-not-found" : "Type D'abonnement Introuvable",
+    "feature-already-exists" : "La fonctionnalité existe deja ",
+    "feature-created-successfully" : "Les fonctionnalitées ont été crée avec succès",
+    "feature-updated-successfully" : "Les fonctionnalitées ont été modifiées avec succès",
+    "feature-deleted-successfully" : "La fonctionnalité a été supprimée avec succès"
 }
