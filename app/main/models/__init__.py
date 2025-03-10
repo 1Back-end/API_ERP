@@ -5,3 +5,7 @@ from .address import *
 from .owners import *
 from .companies import *
 from .storage import *
+from .owners import *
+from .type_abonnements import *
+from.features import *
+from .abonnements import *

@@ -8,9 +8,11 @@ from enum import Enum
 
 
 class CompanyStatus(str,Enum):
-    ACTIVE = "ACTIVE",
+    ACTIVED = "ACTIVED",
     INACTIVE = "INACTIVE",
     CLOSED = "CLOSED"
+    DELETED = "DELETED"
+    BLOCKED = "BLOCKED"
 
 class CompanyType(str,Enum):
     PERSONNAL = "PERSONNAL",
@@ -26,7 +28,9 @@ class Company(Base):
     uuid = Column(String,primary_key=True,index=True)
     name = Column(String, nullable=False)
     email = Column(String, nullable=False,unique=True)
-    phone = Column(String, nullable=False, unique=True)
+    country_code = Column(String, nullable=False)
+    phone_number = Column(String, nullable=False, unique=True)
+    full_phone_number = Column(String, nullable=False, unique=True)
     description = Column(Text, nullable=True)
     slogan = Column(String, nullable=True)
 
@@ -48,8 +52,12 @@ class Company(Base):
     type = Column(String, nullable=False,default=CompanyType.PERSONNAL)
     status = Column(String,nullable=False, default=CompanyStatus.INACTIVE)
 
+    website = Column(String, nullable=True)
+
     added_by = Column(String, ForeignKey("owners.uuid"), nullable=False)  # Référence au propriétaire
     owner = relationship("Owner", foreign_keys=[added_by])
+
+    is_deleted = Column(Boolean, default=False)
 
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)

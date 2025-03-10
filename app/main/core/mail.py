@@ -1,52 +1,84 @@
-import os
-from email.message import EmailMessage
 import smtplib
-from email.utils import formataddr
-from fastapi import HTTPException
-from typing import List
+import logging
+from pathlib import Path
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from jinja2 import Template
 from app.main.core.config import Config
-# Configurations de Mailtrap (ajuste avec tes informations)
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from jinja2 import Environment, FileSystemLoader
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email_validator import validate_email, EmailNotValidError
 
-def send_reset_password_email(email_to: str, code: str, first_name: str = ''):
+def send_account_creation_email(email_to: str, first_name: str, last_name: str, password: str) -> None:
     try:
-        # Valider l'email de l'utilisateur
-        validate_email(email_to)
+        # Charger et rendre le template HTML
+        template_path = Path(Config.EMAIL_TEMPLATES_DIR) / "account_creation.html"
+        html_content = Template(template_path.read_text(encoding="utf-8")).render(
+            first_name=first_name, last_name=last_name, password=password, project_name=Config.PROJECT_NAME
+        )
 
-        # Création du message
+        # Création et envoi de l'email
         msg = MIMEMultipart()
-        msg['From'] = 'laurentalphonsewilfried@gmail.com'
-        msg['To'] = email_to
-        msg['Subject'] = 'Réinitialisation de mot de passe'
+        msg["From"], msg["To"], msg["Subject"] = Config.EMAILS_FROM_CLOUDINARY, email_to, "API_ERP | Compte créé"
+        msg.attach(MIMEText(html_content, "html"))
 
-        body = f"""
-        Bonjour {first_name},
-
-        Vous avez demandé à réinitialiser votre mot de passe. Veuillez utiliser le code suivant pour réinitialiser votre mot de passe :
-
-        Code de réinitialisation : {code}
-
-        Si vous n'avez pas demandé cette réinitialisation, veuillez ignorer ce message.
-
-        """
-        msg.attach(MIMEText(body, 'plain'))
-
-        # Connexion au serveur SMTP
         with smtplib.SMTP(Config.MAILTRAP_HOST, Config.MAILTRAP_PORT) as server:
-            server.starttls()  # Sécuriser la connexion
-            server.login(Config.MAILTRAP_USERNAME, Config.MAILTRAP_PASSWORD)  # Utiliser les credentials de Mailtrap
-            server.sendmail(msg['From'], msg['To'], msg.as_string())
-            print(f"Email envoyé à {email_to} avec le code de réinitialisation.")
+            server.starttls()
+            server.login(Config.MAILTRAP_USERNAME, Config.MAILTRAP_PASSWORD)
+            server.send_message(msg)
 
-    except EmailNotValidError as e:
-        print(f"Email invalide: {e}")
+        logging.info(f"Email envoyé à {email_to}")
+
     except Exception as e:
-        print(f"Erreur lors de l'envoi de l'email: {e}")
+        logging.error(f"Erreur envoi email : {e}")
+
+
+
+def send_start_reset_password(email_to: str,name:str ,code:str) -> None:
+    try:
+        # Charger et rendre le template HTML
+        template_path = Path(Config.EMAIL_TEMPLATES_DIR) / "start_reset_password.html"
+        html_content = Template(template_path.read_text(encoding="utf-8")).render(
+           name=name, code=code, project_name=Config.PROJECT_NAME
+        )
+
+        # Création et envoi de l'email
+        msg = MIMEMultipart()
+        msg["From"], msg["To"], msg["Subject"] = Config.EMAILS_FROM_CLOUDINARY, email_to, "API_ERP | Réinitialisation du mot de passe"
+        msg.attach(MIMEText(html_content, "html"))
+
+        with smtplib.SMTP(Config.MAILTRAP_HOST, Config.MAILTRAP_PORT) as server:
+            server.starttls()
+            server.login(Config.MAILTRAP_USERNAME, Config.MAILTRAP_PASSWORD)
+            server.send_message(msg)
+
+        logging.info(f"Email envoyé à {email_to}")
+
+    except Exception as e:
+        logging.error(f"Erreur envoi email : {e}")
+
+
+
+def notify_admin(email_to: str, name: str, full_phone_number: str) -> None:
+    try:
+        # Charger et rendre le template HTML
+        template_path = Path(Config.EMAIL_TEMPLATES_DIR) / "notify_admin.html"
+        html_content = Template(template_path.read_text(encoding="utf-8")).render(
+            name=name, full_phone_number=full_phone_number, project_name=Config.PROJECT_NAME
+        )
+
+        # Création et envoi de l'email
+        msg = MIMEMultipart()
+        msg["From"], msg["To"], msg["Subject"] = (
+            Config.EMAILS_FROM_CLOUDINARY,
+            email_to,
+            "API_ERP | Création d'un nouveau propriétaire",
+        )
+        msg.attach(MIMEText(html_content, "html"))
+
+        with smtplib.SMTP(Config.MAILTRAP_HOST, Config.MAILTRAP_PORT) as server:
+            server.starttls()
+            server.login(Config.MAILTRAP_USERNAME, Config.MAILTRAP_PASSWORD)
+            server.send_message(msg)
+
+        logging.info(f"Email envoyé à {email_to}")
+
+    except Exception as e:
+        logging.error(f"Erreur envoi email : {e}")

@@ -53,6 +53,8 @@ class ConfigClass(BaseSettings):
     MAILTRAP_PASSWORD :str = get_secret("MAILTRAP_PASSWORD", "f7b4b082b6846c")
     MAILTRAP_HOST: ClassVar[str] = "smtp.mailtrap.io"  # Utilisation de ClassVar
     MAILTRAP_PORT: ClassVar[int] = 587  # Utilisation de ClassVar
+    EMAILS_FROM_CLOUDINARY: str = get_secret("EMAILS_FROM_CLOUDINARY", "otybabesharone@gmail.com")
+
 
 
 

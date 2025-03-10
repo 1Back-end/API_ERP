@@ -3,50 +3,53 @@ from typing import Optional
 from app.main.models.user import UserRole
 from datetime import datetime
 
-class UserBase(BaseModel):
+from app.main.schemas.file import FileSlim1
+
+
+class OwnerBase(BaseModel):
     email:EmailStr
     country_code:str
     phone_number:str
     first_name:str
     last_name :str
-    # password_hash : str
-    role:UserRole
+    password_hash:str
+    avatar_uuid:Optional[str]=None
 
-class UserCreate(UserBase):
+
+class OwnerCreate(OwnerBase):
     pass
 
-class UserUpdate(BaseModel):
+class OwnerResponse(BaseModel):
     uuid:str
-    email:Optional[EmailStr]=None
-    country_code:Optional[str]=None
-    phone_number:Optional[str]=None
-    first_name:Optional[str]=None
-    last_name:Optional[str]=None
-    role:Optional[UserRole]=None
-
-class UserDelete(BaseModel):
-    uuid:str
-
-class UserResponse(UserBase):
-    uuid:str
-    full_phone_number:str
-    status:str
-    created_at:datetime
-    updated_at:datetime
-
-class UserProfile(BaseModel):
-    uuid:str
-    email:Optional[EmailStr]=None
-    country_code:Optional[str]=None
-    phone_number:Optional[str]=None
-    first_name:Optional[str]=None
-    last_name:Optional[str]=None
-    full_phone_number:str
-
-
-class UserLogin(BaseModel):
     email:EmailStr
-    password:str
+    country_code:str
+    phone_number:str
+    first_name:str
+    last_name:str
+    status:str
+    avatar:Optional[FileSlim1]=None
+    date_added:datetime
+    date_modified:datetime
+    model_config = ConfigDict(from_attributes=True)
+
+    
+
+class OwnerDetails(BaseModel):
+    uuid:str
+
+class OwnerDelete(BaseModel):
+    uuid:str
+
+
+class OwnerProfile(BaseModel):
+    uuid:str
+    email:EmailStr
+    country_code:str
+    phone_number:str
+    first_name:str
+    last_name:str
+    model_config = ConfigDict(from_attributes=True)
+
 
 
 class Token(BaseModel):
@@ -54,8 +57,14 @@ class Token(BaseModel):
     token_type: str    # Assurez-vous que ce soit une chaîne de caractères non optionnelle
     model_config = ConfigDict(from_attributes=True)
 
-class UserAuthentification(BaseModel):
-    user: UserResponse
+
+
+class OwnerLogin(BaseModel):
+    email:EmailStr
+    password:str
+
+class OwnerAuthentification(BaseModel):
+    owner: OwnerProfile
     token: Token  # Assurez-vous que ce soit de type `Token`
     model_config = ConfigDict(from_attributes=True)
 
@@ -70,3 +79,7 @@ class ResetPasswordOption3Step3(BaseModel):
     email:EmailStr
     otp:str
     new_password:str
+
+
+class UpdateOwnerStatus(BaseModel):
+    uuid:str
