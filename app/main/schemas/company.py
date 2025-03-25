@@ -113,3 +113,27 @@ class CompanyResponseListAdmin(BaseModel):
 
 class UpdateCompanyStatus(BaseModel):
     uuid:str
+
+
+class CompanyResponseSlim1(BaseModel):
+    uuid:str
+    name:str
+    email:EmailStr
+    country_code:str
+    phone_number:str
+    full_phone_number:str
+    description:Optional[str]=None
+    slogan:str
+    address:AddressSlim
+    logo:Optional[FileSlim]=None
+    signature:Optional[FileSlim]=None
+    stamp:Optional[FileSlim]=None
+    founded_at:datetime
+    employee_count:int
+    type:str
+    status:str
+    website:Optional[str]=None
+    created_at:datetime
+    updated_at:datetime
+    model_config = ConfigDict(from_attributes=True)
+    

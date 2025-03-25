@@ -16,7 +16,7 @@ def create_company(
     *,
     db : Session=Depends(get_db),
     obj_in:schemas.CompanyCreate,
-    current_user : models.User = Depends(TokenRequired(roles=["SUPER_ADMIN"]))
+    current_user:models.Owner = Depends(OwnersTokenRequired())
 ):
     exist_name = crud.CRUDCompany.get_by_name(db=db,name=obj_in.name)
     if exist_name:

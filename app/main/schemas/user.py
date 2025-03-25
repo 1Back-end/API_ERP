@@ -11,6 +11,8 @@ class UserBase(BaseModel):
     last_name :str
     # password_hash : str
     role:UserRole
+    model_config = ConfigDict(from_attributes=True)
+
 
 class UserCreate(UserBase):
     pass
